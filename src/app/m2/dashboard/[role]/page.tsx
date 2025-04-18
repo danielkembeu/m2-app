@@ -6,10 +6,16 @@ import { TeacherPage } from "@/src/components/pages/Teachers";
 import { Roles } from "@/src/types";
 import { useRouter } from "next/navigation";
 
-export default function Role({ params }: { params: { role: string } }) {
+type RoleProps = {
+  params: {
+    role: string;
+  };
+};
+
+export default function Role({ params }: RoleProps) {
   console.log(params.role);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   function renderRoleComponent(role: Roles) {
     switch (role) {
@@ -23,9 +29,11 @@ export default function Role({ params }: { params: { role: string } }) {
         return <ParentPage />;
 
       default:
-        return router.replace("/m2");
+        return <div>Invalid role</div>;
     }
   }
 
-  return <div>AllowedUserRole page</div>;
+  const role = params.role as Roles;
+
+  return <div>{renderRoleComponent(role)}</div>;
 }
