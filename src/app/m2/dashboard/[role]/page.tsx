@@ -14,10 +14,10 @@ export default function Role() {
       case "admin":
         return <AdminPage />;
 
-      case "teachers":
+      case "enseignant":
         return <TeacherPage />;
 
-      case "parents":
+      case "parent":
         return <ParentPage />;
 
       default:
