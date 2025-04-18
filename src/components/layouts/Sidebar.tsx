@@ -1,5 +1,5 @@
 type SidebarProps = {};
 
-export function Sidebar({}: SidebarProps) {
+export function Sidebar() {
   return <div>My side bar</div>;
 }
