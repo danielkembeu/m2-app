@@ -4,22 +4,14 @@ import { AdminPage } from "@/src/components/pages/Admin";
 import { ParentPage } from "@/src/components/pages/Parents";
 import { TeacherPage } from "@/src/components/pages/Teachers";
 import { Roles } from "@/src/types";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
-type RoleProps = {
-  params: {
-    role: string;
-  };
-};
-
-export default function Role({ params }: RoleProps) {
-  console.log(params.role);
-
-  // const router = useRouter();
+export default function Role() {
+  const { role } = useParams();
 
   function renderRoleComponent(role: Roles) {
     switch (role) {
-      case "administration":
+      case "admin":
         return <AdminPage />;
 
       case "teachers":
@@ -33,7 +25,7 @@ export default function Role({ params }: RoleProps) {
     }
   }
 
-  const role = params.role as Roles;
+  // const role = params.role as Roles;
 
-  return <div>{renderRoleComponent(role)}</div>;
+  return <div>{renderRoleComponent(role as Roles)}</div>;
 }
