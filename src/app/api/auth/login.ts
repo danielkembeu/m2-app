@@ -1,7 +1,7 @@
 // Connexion d'un utilisateur.
 
 import { NextResponse } from "next/server";
-import { prisma } from "@/src/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     "auth_user",
     JSON.stringify({
       id: user.id,
-      fullname: user.fullanme,
+      fullname: user.fullname,
       role: user.role,
     })
   );
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     success: true,
     user: {
       id: user.id,
-      fullname: user.fullanme,
+      fullname: user.fullname,
       role: user.role,
     },
   });
