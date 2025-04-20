@@ -3,7 +3,7 @@
 type InputProps = {
   label: string;
   value: string;
-  setValue: (value: string) => void;
+  setValue: (value: any) => void;
   error?: string;
   htmlId?: string;
   type?: string;

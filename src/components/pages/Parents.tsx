@@ -1,29 +1,27 @@
-// src/components/pages/Parents.tsx
-"use client";
+import { RequestForm } from "@/src/components/request/RequestForm";
+import { StudentList } from "@/src/components/eleves/StudentsList";
+import { NotificationList } from "@/src/components/notifications/NotificationsList";
 
 export function ParentPage() {
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-8">
       <h1 className="text-xl font-bold text-purple-600">Espace Parent</h1>
 
-      {/* Liste des enfants */}
       <section>
         <h2 className="text-lg font-semibold mb-2">Mes enfants</h2>
-        {/* Composant : StudentList */}
+        <StudentList />
       </section>
 
-      {/* Historique des notifications */}
       <section>
         <h2 className="text-lg font-semibold mb-2">Notifications</h2>
-        {/* Composant : NotificationList */}
+        <NotificationList />
       </section>
 
-      {/* Faire une requête */}
       <section>
         <h2 className="text-lg font-semibold mb-2">
           Contacter l'administration
         </h2>
-        {/* Composant : RequestForm */}
+        <RequestForm />
       </section>
     </div>
   );

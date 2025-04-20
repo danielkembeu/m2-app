@@ -1,4 +1,3 @@
-import { Navbar } from "@/src/components/layouts/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default function RootLayout({
 }>) {
   return (
     <main>
-      <Navbar />
       <section>{children}</section>
     </main>
   );

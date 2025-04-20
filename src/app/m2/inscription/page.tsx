@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Button } from "@/src/components/Button";
 import { Divider } from "@/src/components/Divider";
 import { Input } from "@/src/components/Input";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Roles } from "@/src/types";
 import { useAuth } from "@/src/hooks/useAuth";
 import { MessageCard } from "@/src/components/Messages";
+import { Navbar } from "@/src/components/layouts/Navbar";
 
 const roles = ["admin", "parent", "enseignant"];
 
@@ -37,77 +38,80 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <form className="flex flex-col max-w-[480px] w-full space-y-4 shadow-lg rounded-lg p-6">
-        {error && <MessageCard type="error" content={error} />}
+    <Fragment>
+      <Navbar />
+      <div className="w-full h-screen flex items-center justify-center">
+        <form className="flex flex-col max-w-[480px] w-full space-y-4 shadow-lg rounded-lg p-6">
+          {error && <MessageCard type="error" content={error} />}
 
-        <h2 className="font-bold text-2xl text-gray-600">Inscription</h2>
+          <h2 className="font-bold text-2xl text-gray-600">Inscription</h2>
 
-        <Input
-          label="Nom complet"
-          value={fullName}
-          setValue={setFullName}
-          htmlId="register-fullname"
-          placeholder="John Doe"
-        />
+          <Input
+            label="Nom complet"
+            value={fullName}
+            setValue={setFullName}
+            htmlId="register-fullname"
+            placeholder="John Doe"
+          />
 
-        <Input
-          label="Email"
-          value={email}
-          setValue={setEmail}
-          htmlId="register-email"
-          type="email"
-          placeholder="johndoe@example.do"
-        />
+          <Input
+            label="Email"
+            value={email}
+            setValue={setEmail}
+            htmlId="register-email"
+            type="email"
+            placeholder="johndoe@example.do"
+          />
 
-        <Input
-          label="Téléphone"
-          value={phone}
-          setValue={setPhone}
-          htmlId="register-phone"
-          type="email"
-          placeholder="+237 6xxxxxxxx"
-        />
+          <Input
+            label="Téléphone"
+            value={phone}
+            setValue={setPhone}
+            htmlId="register-phone"
+            type="email"
+            placeholder="+237 6xxxxxxxx"
+          />
 
-        <Input
-          label="Mot de passe"
-          value={password}
-          setValue={setPassword}
-          htmlId="register-password"
-          type="password"
-          placeholder="*********"
-        />
+          <Input
+            label="Mot de passe"
+            value={password}
+            setValue={setPassword}
+            htmlId="register-password"
+            type="password"
+            placeholder="*********"
+          />
 
-        <div className="flex flex-col space-y-2">
-          <span className="text-sm font-medium text-gray-700">Je suis :</span>
-          <div className="grid grid-cols-3 gap-2">
-            {roles.map((r) => (
-              <Button
-                key={r}
-                variant={role === r ? "default" : "outlined"}
-                onClick={() => setRole(r as Roles)}
-              >
-                {r.charAt(0).toUpperCase() + r.slice(1)}
-              </Button>
-            ))}
+          <div className="flex flex-col space-y-2">
+            <span className="text-sm font-medium text-gray-700">Je suis :</span>
+            <div className="grid grid-cols-3 gap-2">
+              {roles.map((r) => (
+                <Button
+                  key={r}
+                  variant={role === r ? "default" : "outlined"}
+                  onClick={() => setRole(r as Roles)}
+                >
+                  {r.charAt(0).toUpperCase() + r.slice(1)}
+                </Button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <Divider />
+          <Divider />
 
-        <Button
-          loading={loading}
-          type="submit"
-          onClick={(e) => handleSubmit(e)}
-        >
-          Créer un compte
-        </Button>
+          <Button
+            loading={loading}
+            type="submit"
+            onClick={(e) => handleSubmit(e)}
+          >
+            Créer un compte
+          </Button>
 
-        <Button variant="link" onClick={() => router.push("/m2/connexion")}>
-          <span className="font-normal text-gray-600">Déjà inscrit ?</span> Se
-          connecter
-        </Button>
-      </form>
-    </div>
+          <Button variant="link" onClick={() => router.push("/m2/connexion")}>
+            <span className="font-normal text-gray-600">Déjà inscrit ?</span> Se
+            connecter
+          </Button>
+        </form>
+      </div>
+    </Fragment>
   );
 }

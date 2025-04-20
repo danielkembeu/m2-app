@@ -1,3 +1,4 @@
+import { DashboardNavbar } from "@/src/components/layouts/DashboardNavbar";
 import { Sidebar } from "@/src/components/layouts/Sidebar";
 import { Metadata } from "next";
 
@@ -9,9 +10,12 @@ export const metadata: Metadata = {
 type DashboardLayoutProps = React.PropsWithChildren;
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <main>
+    <main className="flex h-screen">
       <Sidebar />
-      <section>{children}</section>
+      <div className="flex flex-col flex-1">
+        <DashboardNavbar />
+        <main className="flex-1 overflow-y-auto p-4">{children}</main>
+      </div>
     </main>
   );
 }

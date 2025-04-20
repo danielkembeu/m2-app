@@ -25,7 +25,8 @@ export default function Root() {
         </li>
         <li>
           <Link href="/m2/dashboard/">
-            Dashboard par role (parent, enseignant ou admin. Ex. /m2/dashboard/parent)
+            Dashboard par role (parent, enseignant ou admin. Ex.
+            /m2/dashboard/parent)
           </Link>
         </li>
       </ul>
