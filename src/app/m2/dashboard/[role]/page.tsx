@@ -20,7 +20,7 @@ export default function Role() {
         return <ParentPage />;
       default:
         return (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="text-3xl font-bold w-full h-full flex items-center justify-center">
             Invalid role
           </div>
         );
@@ -28,7 +28,7 @@ export default function Role() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex">
       <main className="flex-1 overflow-y-auto p-4">
         {renderRoleComponent(role as Roles)}
       </main>

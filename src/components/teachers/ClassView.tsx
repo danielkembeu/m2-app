@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { NoData } from "../NoData";
 
 type Classe = {
   id: string;
@@ -28,31 +29,35 @@ export function ClassView() {
 
   return (
     <div className="space-y-6">
-      {classes.map((classe) => (
-        <div key={classe.id}>
-          <h3 className="text-lg font-semibold text-purple-700">
-            {classe.name} ({classe.niveau})
-          </h3>
-          <table className="min-w-full text-sm border border-gray-200 mt-2">
-            <thead className="bg-purple-100 text-gray-700 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-2">Nom</th>
-                <th className="px-4 py-2">Date de naissance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {classe.eleves.map((el) => (
-                <tr key={el.id} className="border-t">
-                  <td className="px-4 py-2">{el.name}</td>
-                  <td className="px-4 py-2">
-                    {new Date(el.birthDate).toLocaleDateString()}
-                  </td>
+      {classes.length === 0 ? (
+        <NoData message="Aucune classe disponible pour le moment." />
+      ) : (
+        classes.map((classe) => (
+          <div key={classe.id}>
+            <h3 className="text-lg font-semibold text-purple-700">
+              {classe.name} ({classe.niveau})
+            </h3>
+            <table className="min-w-full text-sm border border-gray-200 mt-2">
+              <thead className="bg-purple-100 text-gray-700 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-2">Nom</th>
+                  <th className="px-4 py-2">Date de naissance</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ))}
+              </thead>
+              <tbody>
+                {classe.eleves.map((el) => (
+                  <tr key={el.id} className="border-t">
+                    <td className="px-4 py-2">{el.name}</td>
+                    <td className="px-4 py-2">
+                      {new Date(el.birthDate).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      )}
     </div>
   );
 }

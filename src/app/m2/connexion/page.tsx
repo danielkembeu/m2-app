@@ -25,7 +25,6 @@ export default function Login() {
 
   return (
     <Fragment>
-      <Navbar />
       <div className="w-full h-screen flex items-center justify-center">
         <div className="flex flex-col max-w-[480px] w-full max-h-[500px] space-y-4 shadow-lg rounded-lg py-6 px-9">
           <form className="flex flex-col w-full h-full space-y-4">
@@ -37,7 +36,7 @@ export default function Login() {
             <Input
               label="Email"
               value={email}
-              setValue={setEmail}
+              setValue={(e) => setEmail(e.target.value)}
               border-2
               border-purple-400
               htmlId="login-email"
@@ -48,7 +47,7 @@ export default function Login() {
             <Input
               label="Mot de passe"
               value={password}
-              setValue={setPassword}
+              setValue={(e) => setPassword(e.target.value)}
               htmlId="login-password"
               type="password"
               placeholder="**************"

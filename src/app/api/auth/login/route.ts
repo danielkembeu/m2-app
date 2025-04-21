@@ -26,22 +26,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Mot de passe incorrect", status: 401 });
   }
 
-  // Je garde l'utilisateur connecté dans le localStorage
-  localStorage.setItem(
-    "auth_user",
-    JSON.stringify({
-      id: user.id,
-      fullname: user.fullname,
-      role: user.role,
-    })
-  );
-
   return NextResponse.json({
     success: true,
-    user: {
-      id: user.id,
-      fullname: user.fullname,
-      role: user.role,
-    },
+    user,
   });
 }

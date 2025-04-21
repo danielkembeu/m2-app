@@ -3,21 +3,21 @@
 type InputProps = {
   label: string;
   value: string;
-  setValue: (value: any) => void;
-  error?: string;
+  setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   htmlId?: string;
+  placeholder?: string;
   type?: string;
-  placeholder: string;
+  error?: string | null;
 };
 
 export function Input({
   label,
   value,
   setValue,
-  error,
-  htmlId = "input-" + Math.random().toString(36).substring(2, 9),
-  type = "text",
+  htmlId,
   placeholder,
+  type = "text",
+  error,
 }: InputProps) {
   const inputClass = `border-2 rounded-md w-full p-3 outline-none transition-colors duration-150 ${
     error
@@ -35,7 +35,7 @@ export function Input({
         name={htmlId}
         type={type}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setValue(e)}
         className={inputClass}
         placeholder={placeholder}
       />

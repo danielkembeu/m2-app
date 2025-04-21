@@ -1,14 +1,26 @@
 // app/api/eleves/mine/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 // ⚠️ À sécuriser avec un vrai système d'auth
-const PARENT_ID = "user-id-exemple-parent-temporaire";
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { parentId: string } }
+) {
   try {
+    const { parentId } = params;
+    console.log(parentId);
+
+    if (!parentId) {
+      return NextResponse.json({
+        error: "parentId is required",
+        status: 400,
+      });
+    }
+
     const eleves = await prisma.eleve.findMany({
-      where: { parentId: PARENT_ID },
+      where: { parentId },
       include: {
         classe: true,
       },

@@ -13,6 +13,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
+import { NoData } from "../NoData";
+import { useAuth } from "@/src/hooks/useAuth";
+import { MessageCard } from "../Messages";
 
 type Notification = {
   id: string;
@@ -24,14 +27,18 @@ type Notification = {
   createdAt: string;
 };
 
-export function NotificationForm() {
+export function NotificationSection() {
+  const DEFAULT_TIMEOUT = 5000;
+
+  const { getUser } = useAuth();
+  const user = getUser();
+
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("EVENEMENT");
-  const [creatorId, setCreatorId] = useState("");
-  const [receiverId, setReceiverId] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch("/api/events")
@@ -40,26 +47,31 @@ export function NotificationForm() {
   }, [refresh]);
 
   const handleSubmit = async () => {
-    if (!title || !message || !subject || !creatorId || !receiverId) {
-      alert("Tous les champs sont requis !");
+    if (!title || !message || !subject) {
+      setError("Tous les champs sont requis !");
+      setTimeout(() => {
+        setError("");
+      }, DEFAULT_TIMEOUT);
       return;
     }
 
     const res = await fetch("/api/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, message, subject, creatorId, receiverId }),
+      body: JSON.stringify({ title, message, subject, creatorId: user.id }),
     });
 
     if (res.ok) {
       setTitle("");
       setMessage("");
       setSubject("EVENEMENT");
-      setCreatorId("");
-      setReceiverId("");
       setRefresh(!refresh);
     } else {
       alert("Erreur lors de la création de la notification.");
+      setError("Erreur lors de la création de la notification.");
+      setTimeout(() => {
+        setError("");
+      }, DEFAULT_TIMEOUT);
     }
   };
 
@@ -85,6 +97,7 @@ export function NotificationForm() {
             </DialogDescription>
           </DialogHeader>
           <form className="space-y-2">
+            {error && <MessageCard type="error" content={error} />}
             <Input
               label="Titre"
               placeholder="Titre de la notification"
@@ -92,7 +105,7 @@ export function NotificationForm() {
               setValue={(e) => setTitle(e.target.value)}
             />
             <textarea
-              className="border p-2 w-full rounded"
+              className="border p-2 w-full roune.target.valueded"
               placeholder="Message"
               rows={3}
               value={message}
@@ -109,18 +122,6 @@ export function NotificationForm() {
               <option value="EVENEMENT">Événement</option>
               <option value="EXCLUSION">Exclusion</option>
             </select>
-            <Input
-              label="ID du créateur"
-              placeholder="ID de l'utilisateur créateur"
-              value={creatorId}
-              setValue={(e) => setCreatorId(e.target.value)}
-            />
-            <Input
-              label="ID du destinataire"
-              placeholder="ID de l'utilisateur destinataire"
-              value={receiverId}
-              setValue={(e) => setReceiverId(e.target.value)}
-            />
           </form>
           <DialogFooter className="mt-4">
             <Button type="button" onClick={handleSubmit}>
@@ -129,23 +130,33 @@ export function NotificationForm() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
       <div>
-        <h3 className="font-semibold text-lg">Notifications enregistrées</h3>
-        <ul className="list-disc pl-5 mt-2 text-sm">
-          {notifications.map((n) => (
-            <li key={n.id}>
-              <strong>{n.title}</strong> –{" "}
-              {new Date(n.createdAt).toLocaleDateString()}
-              <br />
-              <span className="text-gray-600">{n.message}</span>
-              <br />
-              <span className="text-gray-500">
-                Sujet : {n.subject}, Créateur : {n.creatorId}, Destinataire :{" "}
-                {n.receiverId}
-              </span>
-            </li>
-          ))}
-        </ul>
+        {notifications.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {notifications.map((n) => (
+              <div
+                key={n.id}
+                className="border-2 rounded-lg p-4 hover:shadow-md transition-shadow bg-white"
+              >
+                <h4 className="font-semibold text-md mb-2">{n.title}</h4>
+                <p className="text-sm text-gray-600 mb-2">{n.message}</p>
+                <p className="text-xs text-gray-500 mb-1">
+                  <strong>Sujet:</strong> {n.subject}
+                </p>
+                <p className="text-xs text-gray-500 mb-1">
+                  <strong>Créateur:</strong> {n.creatorId}
+                </p>
+                <p className="text-xs text-gray-400">
+                  <strong>Créé le:</strong>{" "}
+                  {new Date(n.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <NoData message="Aucune notification enregistrée pour le moment." />
+        )}
       </div>
     </div>
   );

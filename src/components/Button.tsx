@@ -1,7 +1,7 @@
 "use client";
 
 type ButtonProps = React.PropsWithChildren & {
-  onClick: (e?: any) => void;
+  onClick?: (e?: any) => void;
   variant?: "link" | "outlined" | "default";
   type?: "button" | "submit" | "reset" | undefined;
   loading?: boolean;

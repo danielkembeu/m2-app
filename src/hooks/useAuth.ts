@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Roles } from "@/src/types";
+import { Role } from "../generated/prisma";
 
 type AuthPayload = {
   fullname: string;
   email: string;
   password: string;
   phone?: string;
-  role?: Roles;
+  role?: Role;
 };
 
 export function useAuth() {
@@ -29,10 +29,11 @@ export function useAuth() {
       });
 
       const result = await res.json();
+      console.log(result);
 
       if (!res.ok) throw new Error(result.error || "Erreur inconnue");
 
-      router.push(`/dashboard/${result.user.role}`);
+      router.push(`/m2/connexion`);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -52,10 +53,15 @@ export function useAuth() {
       });
 
       const result = await res.json();
+      const user = result.user;
+
+      const userRole = user.role.toLowerCase();
+      console.log(userRole);
 
       if (!res.ok) throw new Error(result.error || "Erreur inconnue");
 
-      router.push(`/dashboard/${result.user.role}`);
+      localStorage.setItem("auth_user", JSON.stringify(result.user));
+      router.push(`/m2/dashboard/${userRole}`);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -63,9 +69,48 @@ export function useAuth() {
     }
   };
 
+  const logout = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      localStorage.removeItem("auth_user");
+      router.push(`/m2/connexion`);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getUser = () => {
+    const storedUser = localStorage.getItem("auth_user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  };
+
+  const isAuthenticated = () => {
+    const user = getUser();
+    return user !== null;
+  };
+
+  const isParent = () => {
+    const user = getUser();
+    return user && user.role === Role.PARENT;
+  };
+
+  const isTeacher = () => {
+    const user = getUser();
+    return user && user.role === Role.ENSEIGNANT;
+  };
+
   return {
     register,
     login,
+    logout,
+    getUser,
+    isAuthenticated,
+    isParent,
+    isTeacher,
     loading,
     error,
   };

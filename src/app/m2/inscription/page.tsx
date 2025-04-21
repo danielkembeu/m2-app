@@ -5,19 +5,18 @@ import { Button } from "@/src/components/Button";
 import { Divider } from "@/src/components/Divider";
 import { Input } from "@/src/components/Input";
 import { useRouter } from "next/navigation";
-import { Roles } from "@/src/types";
 import { useAuth } from "@/src/hooks/useAuth";
 import { MessageCard } from "@/src/components/Messages";
-import { Navbar } from "@/src/components/layouts/Navbar";
+import { Role } from "@/src/generated/prisma";
 
-const roles = ["admin", "parent", "enseignant"];
+const roles: Role[] = ["ADMIN", "PARENT", "ENSEIGNANT"];
 
 export default function Register() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Roles | null>(null);
+  const [role, setRole] = useState<Role | null>(null);
 
   const router = useRouter();
 
@@ -39,7 +38,6 @@ export default function Register() {
 
   return (
     <Fragment>
-      <Navbar />
       <div className="w-full h-screen flex items-center justify-center">
         <form className="flex flex-col max-w-[480px] w-full space-y-4 shadow-lg rounded-lg p-6">
           {error && <MessageCard type="error" content={error} />}
@@ -49,7 +47,7 @@ export default function Register() {
           <Input
             label="Nom complet"
             value={fullName}
-            setValue={setFullName}
+            setValue={(e) => setFullName(e.target.value)}
             htmlId="register-fullname"
             placeholder="John Doe"
           />
@@ -57,7 +55,7 @@ export default function Register() {
           <Input
             label="Email"
             value={email}
-            setValue={setEmail}
+            setValue={(e) => setEmail(e.target.value)}
             htmlId="register-email"
             type="email"
             placeholder="johndoe@example.do"
@@ -66,7 +64,7 @@ export default function Register() {
           <Input
             label="Téléphone"
             value={phone}
-            setValue={setPhone}
+            setValue={(e) => setPhone(e.target.value)}
             htmlId="register-phone"
             type="email"
             placeholder="+237 6xxxxxxxx"
@@ -75,7 +73,7 @@ export default function Register() {
           <Input
             label="Mot de passe"
             value={password}
-            setValue={setPassword}
+            setValue={(e) => setPassword(e.target.value)}
             htmlId="register-password"
             type="password"
             placeholder="*********"
@@ -88,11 +86,15 @@ export default function Register() {
                 <Button
                   key={r}
                   variant={role === r ? "default" : "outlined"}
-                  onClick={() => setRole(r as Roles)}
+                  onClick={() => setRole(r)}
                 >
-                  {r.charAt(0).toUpperCase() + r.slice(1)}
+                  {r.charAt(0).toUpperCase() + r.slice(1).toLowerCase()}
                 </Button>
               ))}
+            </div>
+
+            <div className="text-sm text-gray-500 text-center">
+              Rôle sélectionné : {role || "Aucun"}
             </div>
           </div>
 
@@ -106,7 +108,11 @@ export default function Register() {
             Créer un compte
           </Button>
 
-          <Button variant="link" onClick={() => router.push("/m2/connexion")}>
+          <Button
+            variant="link"
+            type="button"
+            onClick={() => router.push("/m2/connexion")}
+          >
             <span className="font-normal text-gray-600">Déjà inscrit ?</span> Se
             connecter
           </Button>
