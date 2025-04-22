@@ -2,14 +2,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// ⚠️ À sécuriser avec un vrai système d'auth
-
 export async function GET(
   req: NextRequest,
   { params }: { params: { parentId: string } }
 ) {
   try {
-    const { parentId } = params;
+    const { parentId } = await params;
     console.log(parentId);
 
     if (!parentId) {
@@ -21,12 +19,9 @@ export async function GET(
 
     const eleves = await prisma.eleve.findMany({
       where: { parentId },
-      include: {
-        classe: true,
-      },
     });
 
-    return NextResponse.json({ eleves });
+    return NextResponse.json({ eleves }, { status: 200 });
   } catch (err) {
     return NextResponse.json({
       error: "Erreur de récupération des élèves",

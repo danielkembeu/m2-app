@@ -16,6 +16,7 @@ import { Plus } from "lucide-react";
 import { NoData } from "../NoData";
 import { useAuth } from "@/src/hooks/useAuth";
 import { MessageCard } from "../Messages";
+import { ListeClasses } from "@/src/generated/prisma"; // Importez l'enum ListeClasses
 
 type Notification = {
   id: string;
@@ -23,31 +24,60 @@ type Notification = {
   message: string;
   subject: string;
   creatorId: string;
-  receiverId: string;
   createdAt: string;
+};
+
+type Parent = {
+  id: string;
+  fullname: string;
 };
 
 export function NotificationSection() {
   const DEFAULT_TIMEOUT = 5000;
 
-  const { getUser } = useAuth();
-  const user = getUser();
+  const { user } = useAuth();
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [parents, setParents] = useState<Parent[]>([]);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("EVENEMENT");
+  const [selectedParents, setSelectedParents] = useState<string[]>([]);
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/events")
       .then((res) => res.json())
-      .then((data) => setNotifications(data.events || []));
+      .then((data) => {
+        setNotifications(data.events || []);
+        setLoading(false);
+      });
+
+    // Récupérer la liste des parents
+    fetch("/api/users/parents")
+      .then((res) => res.json())
+      .then((data) => {
+        setParents(data.parents || []);
+        setLoading(false);
+      });
+
+    return () => {
+      setLoading(false);
+    };
   }, [refresh]);
 
   const handleSubmit = async () => {
-    if (!title || !message || !subject) {
+    if (
+      !title ||
+      !message ||
+      !subject ||
+      selectedParents.length === 0 ||
+      selectedClasses.length === 0
+    ) {
       setError("Tous les champs sont requis !");
       setTimeout(() => {
         setError("");
@@ -58,16 +88,24 @@ export function NotificationSection() {
     const res = await fetch("/api/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, message, subject, creatorId: user.id }),
+      body: JSON.stringify({
+        title,
+        message,
+        subject,
+        creatorId: user.id,
+        parentIds: selectedParents,
+        classes: selectedClasses, // Utilisation directe des classes
+      }),
     });
 
     if (res.ok) {
       setTitle("");
       setMessage("");
       setSubject("EVENEMENT");
+      setSelectedParents([]);
+      setSelectedClasses([]);
       setRefresh(!refresh);
     } else {
-      alert("Erreur lors de la création de la notification.");
       setError("Erreur lors de la création de la notification.");
       setTimeout(() => {
         setError("");
@@ -75,8 +113,11 @@ export function NotificationSection() {
     }
   };
 
+  if (loading) return <p>Chargement des classes...</p>;
+
   return (
     <div className="space-y-6">
+      {/* {error && <MessageCard type="error" content={error} />} */}
       <Dialog>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold mb-2">Notifications</h2>
@@ -104,13 +145,15 @@ export function NotificationSection() {
               value={title}
               setValue={(e) => setTitle(e.target.value)}
             />
+
             <textarea
-              className="border p-2 w-full roune.target.valueded"
+              className="border-2 focus:border-purple-600 p-2 w-full rounded"
               placeholder="Message"
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
+
             <select
               className="border-2 text-gray-700 p-2 w-full rounded-md border-gray-200 focus:border-purple-600 py-4"
               value={subject}
@@ -121,6 +164,58 @@ export function NotificationSection() {
               <option value="COMPORTEMENT">Comportement</option>
               <option value="EVENEMENT">Événement</option>
               <option value="EXCLUSION">Exclusion</option>
+            </select>
+
+            <select
+              multiple
+              className="border-2 text-gray-700 p-2 w-full rounded-md border-gray-200 focus:border-purple-600 py-4"
+              value={selectedParents}
+              onChange={(e) => {
+                const selectedOptions = Array.from(
+                  e.target.selectedOptions,
+                  (option) => option.value
+                );
+
+                if (selectedOptions.includes("ALL")) {
+                  // Si "Tous les parents" est sélectionné, ajoutez tous les IDs des parents
+                  setSelectedParents(parents.map((parent) => parent.id));
+                } else {
+                  setSelectedParents(selectedOptions);
+                }
+              }}
+            >
+              <option value="ALL">Tous les parents</option>
+              {parents.map((parent) => (
+                <option key={parent.id} value={parent.id}>
+                  {parent.fullname}
+                </option>
+              ))}
+            </select>
+
+            <select
+              multiple
+              className="border-2 text-gray-700 p-2 w-full rounded-md border-gray-200 focus:border-purple-600 py-4"
+              value={selectedClasses}
+              onChange={(e) => {
+                const selectedOptions = Array.from(
+                  e.target.selectedOptions,
+                  (option) => option.value
+                );
+
+                if (selectedOptions.includes("ALL")) {
+                  // Si "Toutes les classes" est sélectionnée, ajoutez toutes les classes
+                  setSelectedClasses(Object.values(ListeClasses));
+                } else {
+                  setSelectedClasses(selectedOptions);
+                }
+              }}
+            >
+              <option value="ALL">Toutes les classes</option>
+              {Object.values(ListeClasses).map((classe) => (
+                <option key={classe} value={classe}>
+                  {classe}
+                </option>
+              ))}
             </select>
           </form>
           <DialogFooter className="mt-4">

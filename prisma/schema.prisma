@@ -30,21 +30,13 @@ model User {
 }
 
 model Eleve {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   fullname  String
   parentId  String
-  classeId  String
-  createdAt DateTime @default(now())
-
-  parent User   @relation("ParentEleves", fields: [parentId], references: [id])
-  classe Classe @relation(fields: [classeId], references: [id])
-}
-
-model Classe {
-  id        String       @id @default(uuid())
-  name      ListeClasses
-  eleves    Eleve[]
+  classe    ListeClasses
   createdAt DateTime     @default(now())
+
+  parent User @relation("ParentEleves", fields: [parentId], references: [id])
 }
 
 model Request {
@@ -65,6 +57,10 @@ model Notification {
   creatorId String
 
   creator User @relation("SentNotifications", fields: [creatorId], references: [id])
+
+  // Relations for targeted parents and classes
+  targetedParents String[]
+  targetedClasses String[]
 }
 
 enum Subjects {

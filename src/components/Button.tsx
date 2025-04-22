@@ -2,7 +2,7 @@
 
 type ButtonProps = React.PropsWithChildren & {
   onClick?: (e?: any) => void;
-  variant?: "link" | "outlined" | "default";
+  variant?: "link" | "outlined" | "default" | "white";
   type?: "button" | "submit" | "reset" | undefined;
   loading?: boolean;
 };
@@ -26,6 +26,10 @@ export function Button({
     case "outlined":
       typeClass =
         "border border-purple-600 text-purple-600 bg-transparent hover:bg-purple-50 active:bg-purple-100";
+      break;
+    case "white":
+      typeClass =
+        "text-purple-600 bg-purple-200 hover:bg-purple-50 active:bg-purple-300";
       break;
     case "default":
     default:

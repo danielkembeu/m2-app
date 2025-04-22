@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { log } from "console";
 
 export async function POST(req: Request) {
-  const { title, message, subject, creatorId } = await req.json();
+  const { title, message, subject, creatorId, parentIds, classes } =
+    await req.json();
 
   // Vérification des champs requis
   if (!title || !message || !subject || !creatorId) {
@@ -21,11 +21,8 @@ export async function POST(req: Request) {
         message,
         subject,
         creator: {
-          connect: { id: creatorId }, // Connectez un utilisateur existant
+          connect: { id: creatorId },
         },
-      },
-      include: {
-        creator: true, // Inclure le créateur de la notification
       },
     });
 
@@ -40,9 +37,11 @@ export async function GET() {
   try {
     const events = await prisma.notification.findMany({
       orderBy: { createdAt: "desc" },
+      include: {
+        creator: true,
+      },
     });
 
-    log("events", events);
     return NextResponse.json({ events });
   } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

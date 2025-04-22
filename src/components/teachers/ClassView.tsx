@@ -19,7 +19,7 @@ export function ClassView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/classes/all") // à créer
+    fetch("/api/eleves/") // à créer
       .then((res) => res.json())
       .then((data) => setClasses(data.classes || []))
       .finally(() => setLoading(false));

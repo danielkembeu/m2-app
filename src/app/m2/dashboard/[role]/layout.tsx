@@ -7,15 +7,14 @@ import { useEffect } from "react";
 type RoleLayoutProps = React.PropsWithChildren;
 
 export default function RoleLayout({ children }: RoleLayoutProps) {
-  const { loading, getUser } = useAuth();
+  const { loading, user } = useAuth();
   const router = useRouter();
-  const user = getUser();
 
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/m2/connexion");
     }
-  }, [loading, user, getUser]);
+  }, [loading, user]);
 
-  return <section>{children}</section>;
+  return <section className="px-32">{children}</section>;
 }

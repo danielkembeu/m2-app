@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Role } from "../generated/prisma";
+import { Role, User } from "../generated/prisma";
 
 type AuthPayload = {
   fullname: string;
@@ -16,6 +16,14 @@ export function useAuth() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const user = useMemo(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storedUser = window.localStorage.getItem("auth_user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    return null; // Retourne null si on est côté serveur
+  }, []);
 
   const register = async (data: AuthPayload) => {
     setLoading(true);
@@ -82,24 +90,15 @@ export function useAuth() {
       setLoading(false);
     }
   };
-
-  const getUser = () => {
-    const storedUser = localStorage.getItem("auth_user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  };
-
   const isAuthenticated = () => {
-    const user = getUser();
     return user !== null;
   };
 
   const isParent = () => {
-    const user = getUser();
     return user && user.role === Role.PARENT;
   };
 
   const isTeacher = () => {
-    const user = getUser();
     return user && user.role === Role.ENSEIGNANT;
   };
 
@@ -107,7 +106,7 @@ export function useAuth() {
     register,
     login,
     logout,
-    getUser,
+    user,
     isAuthenticated,
     isParent,
     isTeacher,

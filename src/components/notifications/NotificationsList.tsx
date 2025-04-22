@@ -11,8 +11,7 @@ import { useAuth } from "@/src/hooks/useAuth";
 export function NotificationList() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const { getUser } = useAuth();
-  const user = getUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,7 +20,7 @@ export function NotificationList() {
         const data = await response.json();
 
         console.log("data", data);
-        setNotifications(data.events|| []);
+        setNotifications(data.events || []);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des notifications :",
@@ -64,7 +63,9 @@ export function NotificationList() {
                 {new Date(notif.createdAt).toLocaleDateString()}
               </td>
               <td className="px-4 py-2">
-                <Link href={`/m2/dashboard/${user.role.toLowerCase()}/${notif.id}`}>
+                <Link
+                  href={`/m2/dashboard/${user.role.toLowerCase()}/${notif.id}`}
+                >
                   <Button>
                     <div className="text-sm text-white flex items-center px-2 space-x-2">
                       <Eye className="size-4" />

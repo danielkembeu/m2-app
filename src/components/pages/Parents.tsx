@@ -9,12 +9,11 @@ export function ParentPage() {
       <Banner />
 
       <section>
-        <h2 className="text-lg font-semibold mb-2">Notifications</h2>
+        <h2 className="text-lg font-semibold mb-2">Mes notifications</h2>
         <NotificationList />
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold mb-2">Mes enfants</h2>
         <StudentList />
       </section>
 
