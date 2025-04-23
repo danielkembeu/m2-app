@@ -56,6 +56,7 @@ export default function Login() {
             <Divider />
 
             <Button
+              loading={loading}
               type="submit"
               onClick={(e) => {
                 console.log(email, password);
@@ -67,7 +68,6 @@ export default function Login() {
           </form>
 
           <Button
-            loading={loading}
             type="submit"
             variant="link"
             onClick={() => router.push("/m2/inscription")}

@@ -46,6 +46,7 @@ export function NotificationSection() {
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -71,6 +72,8 @@ export function NotificationSection() {
   }, [refresh]);
 
   const handleSubmit = async () => {
+    setFormLoading(true);
+
     if (
       !title ||
       !message ||
@@ -81,6 +84,7 @@ export function NotificationSection() {
       setError("Tous les champs sont requis !");
       setTimeout(() => {
         setError("");
+        setFormLoading(false);
       }, DEFAULT_TIMEOUT);
       return;
     }
@@ -105,10 +109,12 @@ export function NotificationSection() {
       setSelectedParents([]);
       setSelectedClasses([]);
       setRefresh(!refresh);
+      setFormLoading(false);
     } else {
       setError("Erreur lors de la création de la notification.");
       setTimeout(() => {
         setError("");
+        setFormLoading(false);
       }, DEFAULT_TIMEOUT);
     }
   };
@@ -210,7 +216,6 @@ export function NotificationSection() {
                 }
               }}
             >
-              <option value="ALL">Toutes les classes</option>
               {Object.values(ListeClasses).map((classe) => (
                 <option key={classe} value={classe}>
                   {classe}
@@ -219,7 +224,7 @@ export function NotificationSection() {
             </select>
           </form>
           <DialogFooter className="mt-4">
-            <Button type="button" onClick={handleSubmit}>
+            <Button loading={formLoading} type="button" onClick={handleSubmit}>
               Créer la notification
             </Button>
           </DialogFooter>

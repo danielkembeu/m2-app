@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+
 type ButtonProps = React.PropsWithChildren & {
   onClick?: (e?: any) => void;
   variant?: "link" | "outlined" | "default" | "white";
@@ -43,9 +45,13 @@ export function Button({
       disabled={loading}
       type={type}
       onClick={onClick}
-      className={`${baseClass} ${typeClass}`}
+      className={`${baseClass} ${typeClass} ${loading && 'opacity-60'}`}
     >
-      {children}
+      {loading ? (
+        <Loader2 className="text-purple-500 animate-spin" />
+      ) : (
+        children
+      )}
     </button>
   );
 }

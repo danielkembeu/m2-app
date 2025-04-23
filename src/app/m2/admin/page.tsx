@@ -4,21 +4,17 @@ import { Fragment, useState } from "react";
 import { Button } from "@/src/components/Button";
 import { Divider } from "@/src/components/Divider";
 import { Input } from "@/src/components/Input";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/src/hooks/useAuth";
 import { MessageCard } from "@/src/components/Messages";
 import { Role } from "@/src/generated/prisma";
 
-const roles: Role[] = ["PARENT", "ENSEIGNANT"];
+// const roles: Role[] = ["ADMIN", "PARENT", "ENSEIGNANT"];
 
-export default function Register() {
+export default function AdminRegister() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Role | null>(null);
-
-  const router = useRouter();
 
   const { register, loading, error } = useAuth();
 
@@ -26,14 +22,12 @@ export default function Register() {
     // Empeche la page de se recharger apres que le formulaire ait ete envoyé.
     e.preventDefault();
 
-    if (!role) return alert("Sélectionne un rôle");
-
     register({
       fullname: fullName,
       email,
       password,
-      role,
-      phone
+      role: "ADMIN" as Role,
+      phone,
     });
   };
 
@@ -43,7 +37,7 @@ export default function Register() {
         <form className="flex flex-col max-w-[480px] w-full space-y-4 shadow-lg rounded-lg p-6">
           {error && <MessageCard type="error" content={error} />}
 
-          <h2 className="font-bold text-2xl text-gray-600">Inscription</h2>
+          <h2 className="font-bold text-2xl text-gray-600">Inscription Administateur</h2>
 
           <Input
             label="Nom complet"
@@ -80,25 +74,6 @@ export default function Register() {
             placeholder="*********"
           />
 
-          <div className="flex flex-col space-y-2">
-            <span className="text-sm font-medium text-gray-700">Je suis :</span>
-            <div className="grid grid-cols-2 gap-2">
-              {roles.map((r) => (
-                <Button
-                  key={r}
-                  variant={role === r ? "default" : "outlined"}
-                  onClick={() => setRole(r)}
-                >
-                  {r.charAt(0).toUpperCase() + r.slice(1).toLowerCase()}
-                </Button>
-              ))}
-            </div>
-{/* 
-            <div className="text-sm text-gray-500 text-center">
-              Rôle sélectionné : {role || "Aucun"}
-            </div> */}
-          </div>
-
           <Divider />
 
           <Button
@@ -106,16 +81,7 @@ export default function Register() {
             type="submit"
             onClick={(e) => handleSubmit(e)}
           >
-            Créer un compte
-          </Button>
-
-          <Button
-            variant="link"
-            type="button"
-            onClick={() => router.push("/m2/connexion")}
-          >
-            <span className="font-normal text-gray-600">Déjà inscrit ?</span> Se
-            connecter
+            Créer un compte administrateur
           </Button>
         </form>
       </div>
