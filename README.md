@@ -26,7 +26,7 @@ cd ton-projet
 3. Installer les dépendances
 
 ```cmd
-   npm install
+npm install
 ```
 
 4. Configurer la base de données avec Prisma
@@ -46,24 +46,28 @@ npx prisma migrate dev --name init
 ```
 
 5. Lancer le serveur
-   ```cmd
-   npm run dev
-   ```
+
+```cmd
+npm run dev
+```
+
 6. Mettre à jour le projet avec les dernières modifications
-   ```cmd
-   git pull
-   ```
+
+```cmd
+git pull
+```
+
 7. Visualiser la base de données avec Prisma Studio
 
-   ```cmd
-   npx prisma studio
-   ```
+```cmd
+npx prisma studio
+```
 
-   Cela ouvrira une interface web pour naviguer facilement dans votre base de données.
+Cela ouvrira une interface web pour naviguer facilement dans votre base de données.
 
 ### Scripts utiles
 
-**npm run dev**: Lancer le serveur de développement
-**npx prisma migrate dev**: Appliquer les migrations Prisma
-**npx prisma studio**: Ouvrir Prisma Studio
-**git pull**: Récupérer les dernières modifications
+- **npm run dev**: Lancer le serveur de développement
+- **npx prisma migrate dev**: Appliquer les migrations Prisma
+- **npx prisma studio**: Ouvrir Prisma Studio
+- **git pull**: Récupérer les dernières modifications
