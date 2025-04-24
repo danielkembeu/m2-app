@@ -2,8 +2,6 @@
 - Ajouter l'envoie de requete a un enseignant de son choix.
 - Ajout de la messagerie de groupe.
 - Admin peut envoyer un fichier au parent (Attendre le fichier de Diane (pdf)).
-- Enlever l'option Admin dans l'inscription.
-- Ajouter l'url de l'admin pour l'inscription.
 - Envoie de notification (email, sms, whatsapp).
 - Ajouter un bouton de retour a l'accueil dans les pages d'authentification. 
 - Modifier creatorId en fullname, et remplacer par le nom du createur de la notification

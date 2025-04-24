@@ -12,20 +12,20 @@ Ce projet est une application [décris rapidement ici, ex: web de gestion, plate
 
 ## Étapes d'installation
 
-### 1. Utiliser l'invite de commande (CMD)
+### 1. Utiliser l'invite de commande (bash)
 
 Assurez-vous d'exécuter toutes les commandes ci-dessous dans **CMD** (et non PowerShell).
 
 ### 2. Cloner le projet
 
-```cmd
+```bash
 git clone https://github.com/ton-utilisateur/ton-projet.git
 cd ton-projet
 ```
 
 ### 3. Installer les dépendances
 
-```cmd
+```bash
 npm install
 ```
 
@@ -33,7 +33,7 @@ npm install
 
 Créez un fichier `.env` à la racine du projet en vous basant sur le fichier `.env.example` :
 
-```cmd
+```bash
 copy .env.example .env
 ```
 
@@ -41,26 +41,26 @@ Modifiez la variable DATABASE_URL avec l'URL de votre base de données.
 
 Ensuite, initialisez Prisma :
 
-```cmd
+```bash
 npx prisma generate
 npx prisma migrate dev --name init
 ```
 
 ### 5. Lancer le serveur
 
-```cmd
+```bash
 npm run dev
 ```
 
 ### 6. Mettre à jour le projet avec les dernières modifications
 
-```cmd
+```bash
 git pull
 ```
 
 ### 7. Visualiser la base de données avec Prisma Studio
 
-```cmd
+```bash
 npx prisma studio
 ```
 

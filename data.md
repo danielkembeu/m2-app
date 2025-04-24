@@ -1,7 +1,0 @@
-- utiliser le CMD et non le powershell
-- cloner le projet
-- installer les packages
-- lancer le serveur
-- configurer prisma
-- Obtenir les modifications faites avec git pull
-- Utiliser prisma studio pour voir la base de donnees.
