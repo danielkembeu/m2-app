@@ -9,7 +9,7 @@ import { ChartColumn, CircuitBoard, Users } from "lucide-react";
 import Link from "next/link";
 
 const HeroSection = () => (
-  <section className="relative h-screen w-full">
+  <section className="relative h-screen w-full mt-32">
     <div className="overflow-hidden relative rounded-lg m-12 h-full  bg-white">
       <Image
         src={banner}
@@ -19,7 +19,7 @@ const HeroSection = () => (
         className="absolute inset-0 z-0"
         priority
         sizes="100vw"
-        quality={100} // Set the image quality
+        quality={100}
         placeholder="blur"
       />
 
@@ -208,7 +208,9 @@ const Footer = () => (
 export default function App() {
   return (
     <div>
-      <Navbar />
+      <div className="fixed top-0 w-full z-50 bg-white">
+        <Navbar />
+      </div>
       <HeroSection />
       <FeaturesSection />
       <TestimonialsSection />

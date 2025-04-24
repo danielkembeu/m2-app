@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import logo1 from "@/public/logos/logo1.jpeg";
+import logo1 from "@/public/logos/logo1-wbg.png";
 
 const links = [
   {
@@ -30,10 +30,9 @@ export function Navbar() {
   const isSigningUp = pathname === "/m2/inscription";
 
   return (
-    <nav className="bg-white border-b border-gray-200 flex justify-between items-center w-full px-40 py-4 transition-all duration-300">
+    <nav className="bg-white border-b border-gray-200 flex justify-between items-center w-full px-40 transition-all duration-300">
       <Link href="/">
-        <h2 className="text-3xl font-bold">M2</h2>
-        {/* <Image src={logo1} alt="M2 logo" width={100} height={20} /> */}
+        <Image src={logo1} alt="M2 logo" width={150}  />
       </Link>
 
       <div className="flex items-center space-x-12 justify-between">

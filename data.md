@@ -1,33 +1,7 @@
-## Datas
-
-User
-  - id
-  - role
-  - email
-  - phone
-  - fullname
-  - password
-
-Eleve
-  - id
-  - class
-  - name
-  - parentId
-
-Class
-  - id
-  - name
-
-Request
- - id
- - content
- - subject
- - parentId
-
-Notification
- - id
- - title
- - message
- - subject
- - creatorId
- - receiverId
+- utiliser le CMD et non le powershell
+- cloner le projet
+- installer les packages
+- lancer le serveur
+- configurer prisma
+- Obtenir les modifications faites avec git pull
+- Utiliser prisma studio pour voir la base de donnees.
