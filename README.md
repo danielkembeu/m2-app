@@ -23,14 +23,15 @@ git clone https://github.com/ton-utilisateur/ton-projet.git
 cd ton-projet
 ```
 
-3. Installer les dépendances
+### 3. Installer les dépendances
 
 ```cmd
 npm install
 ```
 
-4. Configurer la base de données avec Prisma
-   Créez un fichier `.env` à la racine du projet en vous basant sur le fichier `.env.example` :
+### 4. Configurer la base de données avec Prisma
+
+Créez un fichier `.env` à la racine du projet en vous basant sur le fichier `.env.example` :
 
 ```cmd
 copy .env.example .env
@@ -45,19 +46,19 @@ npx prisma generate
 npx prisma migrate dev --name init
 ```
 
-5. Lancer le serveur
+### 5. Lancer le serveur
 
 ```cmd
 npm run dev
 ```
 
-6. Mettre à jour le projet avec les dernières modifications
+### 6. Mettre à jour le projet avec les dernières modifications
 
 ```cmd
 git pull
 ```
 
-7. Visualiser la base de données avec Prisma Studio
+### 7. Visualiser la base de données avec Prisma Studio
 
 ```cmd
 npx prisma studio
@@ -65,7 +66,7 @@ npx prisma studio
 
 Cela ouvrira une interface web pour naviguer facilement dans votre base de données.
 
-### Scripts utiles
+#### Scripts utiles
 
 - **npm run dev**: Lancer le serveur de développement
 - **npx prisma migrate dev**: Appliquer les migrations Prisma
