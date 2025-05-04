@@ -27,6 +27,7 @@ model User {
   eleves            Eleve[]        @relation("ParentEleves")
   requests          Request[]      @relation("ParentRequests")
   sentNotifications Notification[] @relation("SentNotifications")
+  sentMessages      Message[]      @relation("SentMessages")
 }
 
 model Eleve {
@@ -37,6 +38,16 @@ model Eleve {
   createdAt DateTime     @default(now())
 
   parent User @relation("ParentEleves", fields: [parentId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  senderId  String
+  createdAt DateTime @default(now())
+  filePath  String   @default("")
+
+  sender User @relation("SentMessages", fields: [senderId], references: [id])
 }
 
 model Request {

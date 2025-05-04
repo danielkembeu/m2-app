@@ -1,1 +1,0 @@
-// Charger les notifications de l'utilisateur courant

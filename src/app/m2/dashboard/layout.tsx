@@ -1,5 +1,4 @@
 import { DashboardNavbar } from "@/src/components/layouts/DashboardNavbar";
-import { Sidebar } from "@/src/components/layouts/Sidebar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 type DashboardLayoutProps = React.PropsWithChildren;
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <main className="flex h-screen">

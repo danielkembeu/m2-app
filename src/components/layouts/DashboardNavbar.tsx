@@ -18,7 +18,7 @@ export const DashboardNavbar = React.memo(() => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="w-full h-16 px-60 flex items-center justify-between border-b bg-purple-50 shadow-sm">
+    <header className="w-full h-16 px-62 flex items-center justify-between border-b bg-purple-50 shadow-sm">
       {user && (
         <>
           <Image

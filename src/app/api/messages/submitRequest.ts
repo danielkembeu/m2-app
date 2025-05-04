@@ -1,1 +1,0 @@
-// Celui qui recoit une notification (Message) peut y repondre aussi et soumettre une requete.

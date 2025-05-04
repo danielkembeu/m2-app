@@ -1,7 +1,7 @@
 "use client";
 
 type InputProps = {
-  label: string;
+  label?: string;
   value: string;
   setValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   htmlId?: string;
@@ -27,9 +27,11 @@ export function Input({
 
   return (
     <div className="flex flex-col space-y-2 w-full mb-3">
-      <label htmlFor={htmlId} className="text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={htmlId} className="text-sm font-medium text-gray-700">
+          {label}
+        </label>
+      )}
       <input
         id={htmlId}
         name={htmlId}
